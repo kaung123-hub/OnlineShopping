@@ -36,11 +36,23 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item <%= path === '/' ? 'active' : '' %>">
                         <a class="nav-link" href="/">Shop
-                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item <%= path === '/products' ? 'active' : '' %>">
+                        <a class="nav-link" href="/products">Product
                         </a>
                     </li>
                     <li class="nav-item <%= path === '/admin/add-product' ? 'active' : '' %>">
                         <a class="nav-link" href="/admin/add-product">Add Product</a>
+                    </li>
+                    <li class="nav-item <%= path === '/admin/products' ? 'active' : '' %>">
+                        <a class="nav-link" href="/admin/products">Admin Product</a>
+                    </li>
+                    <li class="nav-item <%= path === 'orders' ? 'active' : '' %>">
+                        <a class="nav-link" href="/orders">Orders</a>
+                    </li>
+                    <li class="nav-item <%= path === 'cart' ? 'active' : '' %>">
+                        <a class="nav-link" href="/cart">Cart</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto nav-flex-icons">

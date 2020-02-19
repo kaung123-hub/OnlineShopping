@@ -13,10 +13,11 @@
                 <% prods.forEach(product => {%>
                 <div class="col-lg-4 col-md-6 mb-4">
 
-                    <a href="" class="waves-effect waves-light"><img src="<%= product.image%>"
-                            alt="<%= product.title%>"></a>
+                    <a href="" class="waves-effect waves-light">
+                        <img src="<%= product.image%>" alt="<%= product.title%>" style="width: 100%; height: 200px">
+                    </a>
 
-                    <p class="mb-1"><a href="" class="font-weight-bold black-text"><%= product.title%></a></p>
+                    <p class=" mb-1"><a href="" class="font-weight-bold black-text"><%= product.title%></a></p>
 
                     <p class="mb-1"><strong>$<%= product.price%></strong></p>
 
@@ -31,8 +32,8 @@
                     </div> -->
 
                     <button type="button" class="btn btn-black btn-rounded btn-sm px-3">Buy Now</button>
-                    <button type="button"
-                        class="btn btn-outline-black btn-rounded btn-sm px-3 waves-effect">Details</button>
+                    <a href="/products/<%= product._id %>"
+                        class="btn btn-outline-black btn-rounded btn-sm px-3 waves-effect">Details</a>
 
                 </div>
                 <!--Grid column-->

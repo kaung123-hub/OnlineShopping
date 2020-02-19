@@ -1,5 +1,7 @@
 const express = require('express');
 
+const mongoConnect = require('./util/database').mongoConnect;
+
 const bodyParser = require('body-parser');
 
 const path = require('path');
@@ -35,4 +37,6 @@ app.use('', (req, res, next) => {
     res.render('404', { pageTitle: 'Page Not Found!!', 'path': '' });
 });
 
-app.listen(3000);
+mongoConnect(() => {
+    app.listen(3000);
+})

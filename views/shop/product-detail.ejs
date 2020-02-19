@@ -1,0 +1,97 @@
+<div class="container my-5 py-5 z-depth-1">
+
+
+    <!--Section: Content-->
+    <section class="text-center">
+
+        <!-- Section heading -->
+        <h3 class="font-weight-bold mb-5" style="font-size: 3em;">Product Details</h3>
+
+        <div class="row">
+
+            <div class="col-md-6 mx-2">
+                <img src="<%= product.image %>" style="height: 300px; width:50%;" alt="<%= product.title %>">
+            </div>
+
+            <div class="col-lg-5 text-center text-md-left">
+
+                <h2
+                    class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4">
+                    <strong><%= product.title %></strong>
+                </h2><br><br>
+
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+                    <!-- Accordion card -->
+                    <div class="card">
+
+                        <!-- Card header -->
+                        <div class="card-header" role="tab" id="headingThree3">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx"
+                                href="#collapseThree3" aria-expanded="false" aria-controls="collapseThree3">
+                                <h5 class="mb-0">
+                                    price
+                                    <i class="fas fa-angle-down rotate-icon float-right"></i>
+                                </h5>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3"
+                            data-parent="#accordionEx">
+                            <div class="card-body">
+                                $ <%= product.price %>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Accordion card -->
+
+                    <!-- Accordion card -->
+                    <div class="card">
+
+                        <!-- Card header -->
+                        <div class="card-header" role="tab" id="headingFour4">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseFour4"
+                                aria-expanded="false" aria-controls="collapseFour4">
+                                <h5 class="mb-0">
+                                    Description
+                                    <i class="fas fa-angle-down rotate-icon float-right"></i>
+                                </h5>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapseFour4" class="collapse" role="tabpanel" aria-labelledby="headingFour4"
+                            data-parent="#accordionEx">
+                            <div class="card-body">
+                                $ <%= product.description %>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Accordion card -->
+
+
+                </div>
+                <!--/.Accordion wrapper-->
+
+                <!-- Add to Cart -->
+
+                <div class="row mt-3">
+                    <div class="col-md-12 text-center text-md-left text-md-right">
+                        <button class="btn btn-primary btn-rounded">
+                            <i class="fas fa-cart-plus mr-2" aria-hidden="true"></i> Add to cart</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!--Section: Content-->
+
+
+</div>

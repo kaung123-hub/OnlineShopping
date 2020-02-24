@@ -31,9 +31,14 @@
                         <i class="fas fa-star"></i>
                     </div> -->
 
-                    <button type="button" class="btn btn-black btn-rounded btn-sm px-3">Buy Now</button>
-                    <button type="button"
-                        class="btn btn-outline-black btn-rounded btn-sm px-3 waves-effect">Details</button>
+                    <div class="d-flex ml-5 pl-5">
+                        <a href="/admin/edit-product/<%= product._id %>?edit=true"
+                            class="btn btn-success btn-sm">Edit</a>
+                        <form action="/admin/delete-product" method="POST">
+                            <input type="hidden" name="productId" value="<%= product._id %>">
+                            <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                        </form>
+                    </div>
 
                 </div>
                 <!--Grid column-->

@@ -8,36 +8,43 @@
                     <div class="card">
 
                         <h5 class="card-header info-color white-text text-center py-4">
-                            <strong>Add Product</strong>
+                            <strong><% if(editing){ %>Edit Product<%} else {%>Add Product<% } %></strong>
                         </h5>
 
                         <!--Card content-->
                         <div class="card-body px-lg-5">
 
                             <!-- Form -->
-                            <form class="text-center" style="color: #757575;" action="#!" action="/admin/add-product"
+                            <form class="text-center" style="color: #757575;"
+                                action="<% if (editing) { %>/admin/edit-product<% }else{ %>/admin/add-product<% } %>"
                                 method="POST">
                                 <!-- Name -->
                                 <div class="md-form mt-3">
-                                    <input type="text" id="title" name="title" class="form-control">
+                                    <% if(editing) {%>
+                                    <input type="hidden" name="productId" value="<%= product._id %>">
+                                    <%}%>
+                                        <input type="text" id="title" name="title" class="form-control"
+                                            value="<% if(editing) { %> <%= product.title %> <% } %>">
                                     <label for="title">Title</label>
                                 </div>
                                 <div class="md-form mt-3">
-                                    <input type="text" id="image" name="image" class="form-control">
-                                    <label for="image">Image Url</label>
+                                    <input type="text" id="image" name="image" class="form-control"
+                                        value="<% if(editing) { %> <%= product.image %> <% } %>">
+                                    <label for=" image">Image Url</label>
                                 </div>
                                 <div class="md-form mt-3">
-                                    <input type="number" id="price" name="price" class="form-control">
-                                    <label for="price">Price</label>
+                                    <input type="text" id="price" name="price" class="form-control"
+                                        value="<% if(editing) { %> <%= product.price %> <% } %>">
+                                    <label for=" price">Price</label>
                                 </div>
                                 <div class="md-form mt-3">
                                     <textarea name="description" id="description" class="form-control"
-                                        rows="5"></textarea>
+                                        rows=" 5"><% if(editing) { %> <%= product.description %> <% } %></textarea>
                                     <label for="description">Description</label>
                                 </div>
                                 <!-- Sign in button -->
                                 <button class="btn btn-info btn-rounded btn-block z-depth-0 my-4 waves-effect"
-                                    type="submit">Add</button>
+                                    type="submit"><% if(editing){ %>Edit Product<%} else {%>Add Product<% } %></button>
 
                             </form>
                             <!-- Form -->

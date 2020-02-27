@@ -10,6 +10,9 @@ const app = express();
 
 const expressLayout = require('express-ejs-layouts');
 
+//import from model
+const User = require('./models/user');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -21,9 +24,20 @@ app.set('view engine', 'ejs');
 
 //--import from route module--
 
-const adminRoute = require('./routes/admin');
+const adminRoute = require('./routes/admin')
 
 const shopRoute = require('./routes/shop');
+
+app.use((req, res, next) => {
+    User.findById("5e5376fd1c9d44000008e438")
+        .then(user => {
+            req.user = new User(user.email, user.name, user.cart, user._id);
+            next();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
 
 //--use from route--
 

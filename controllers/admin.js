@@ -14,10 +14,10 @@ exports.postAddProduct = (req, res, next) => {
     const image = req.body.image;
     const price = req.body.price;
     const description = req.body.description;
-    const product = new Product(title, image, price, description, null);
+    const userId = req.user._id;
+    const product = new Product(title, image, price, description, null, userId);
     product.save()
         .then(result => {
-            console.log(result);
             res.redirect('/admin/products');
         })
         .catch(err => {
@@ -60,8 +60,9 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImage = req.body.image;
     const updatedPrice = req.body.price;
     const updatedDes = req.body.description;
+    const updatedUser = req.user._id;
 
-    const product = new Product(updatedTitle, updatedImage, updatedPrice, updatedDes, new mongodb.ObjectId(prodId));
+    const product = new Product(updatedTitle, updatedImage, updatedPrice, updatedDes, new mongodb.ObjectId(prodId), updatedUser);
 
     product.save()
         .then(result => {

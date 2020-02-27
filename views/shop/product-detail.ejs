@@ -81,8 +81,11 @@
 
                 <div class="row mt-3">
                     <div class="col-md-12 text-center text-md-left text-md-right">
-                        <button class="btn btn-primary btn-rounded">
-                            <i class="fas fa-cart-plus mr-2" aria-hidden="true"></i> Add to cart</button>
+                        <form action="/cart" method="POST">
+                            <button class="btn btn-black btn-rounded btn-sm px-3">Add to Cart</button>
+                            <input type="hidden" name="prodId" value="<%= product._id %>">
+                        </form>
+
                     </div>
                 </div>
 

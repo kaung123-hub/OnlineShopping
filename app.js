@@ -1,6 +1,6 @@
 const express = require('express');
 
-const mongoConnect = require('./util/database').mongoConnect;
+const mongoose = require('mongoose');
 
 const bodyParser = require('body-parser');
 
@@ -29,9 +29,9 @@ const adminRoute = require('./routes/admin')
 const shopRoute = require('./routes/shop');
 
 app.use((req, res, next) => {
-    User.findById("5e5376fd1c9d44000008e438")
+    User.findById("5e5e1d7b18c83815440b90c0")
         .then(user => {
-            req.user = new User(user.email, user.name, user.cart, user._id);
+            req.user = user;
             next();
         })
         .catch(err => {
@@ -51,6 +51,21 @@ app.use('', (req, res, next) => {
     res.render('404', { pageTitle: 'Page Not Found!!', 'path': '' });
 });
 
-mongoConnect(() => {
-    app.listen(3000);
-})
+mongoose.connect('mongodb+srv://Yabuto:Yabuto[6101997]@cluster0-t9d6d.mongodb.net/shop', { useNewUrlParser: true })
+    .then(result => {
+        User.findOne()
+            .then(user => {
+                if (!user) {
+                    const user = new User({
+                        name: 'Yabuto',
+                        email: 'Yabuto@gmail.com'
+                    })
+                    user.save();
+                }
+            })
+        console.log("connected DB...");
+        app.listen(3000);
+    })
+    .catch(err => {
+        console.log(err);
+    })

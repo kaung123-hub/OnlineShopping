@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-const mongodb = require('mongodb');
+// const mongodb = require('mongodb');
 
 exports.getAddProduct = (req, res, next) => {
     res.render('admin/product-form.ejs', {
@@ -14,10 +14,16 @@ exports.postAddProduct = (req, res, next) => {
     const image = req.body.image;
     const price = req.body.price;
     const description = req.body.description;
-    const userId = req.user._id;
-    const product = new Product(title, image, price, description, null, userId);
+    const product = new Product({
+        title: title,
+        image: image,
+        price: price,
+        description: description,
+        userId: req.user._id
+    });
     product.save()
         .then(result => {
+            console.log(result);
             res.redirect('/admin/products');
         })
         .catch(err => {
@@ -26,8 +32,11 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll()
+    Product.find()
+        // .populate('userId') //can retrieve all user data of userId 
+        // .select('title price -_id') //only the selected data is retrieved and -_id is not to show 
         .then(products => {
+            console.log(products)
             res.render('admin/products.ejs', {
                 pageTitle: 'Admin Product Lists',
                 path: '/admin/products',
@@ -60,23 +69,33 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImage = req.body.image;
     const updatedPrice = req.body.price;
     const updatedDes = req.body.description;
-    const updatedUser = req.user._id;
-
-    const product = new Product(updatedTitle, updatedImage, updatedPrice, updatedDes, new mongodb.ObjectId(prodId), updatedUser);
-
-    product.save()
+    Product.findByIdAndUpdate({ _id: prodId }, {
+        title: updatedTitle,
+        image: updatedImage,
+        price: updatedPrice,
+        description: updatedDes,
+        userId: req.user._id
+    }) //first Method
+        // Product.findById(prodId)
+        //     .then(product => {
+        //         product.title = updatedTitle,
+        //             product.image = updatedImage,
+        //             product.price = updatedPrice,
+        //             product.description = updatedDes
+        //         return product.save()
+        //     }) //second method
         .then(result => {
-            console.log(result);
-            res.redirect('/admin/products');
+            console.log('Your updated is successfull!')
+            res.redirect('/admin/products')
         })
         .catch(err => {
-            console.log(err);
+            console.log(err)
         });
 }
 
 exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
-    Product.deleteById(prodId)
+    Product.findByIdAndRemove(prodId)
         .then(() => {
             console.log("Delete Successfull!!");
             res.redirect('/admin/products');

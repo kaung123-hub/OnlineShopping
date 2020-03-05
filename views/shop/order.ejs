@@ -1,1 +1,21 @@
-<h1>This is Order Page</h1>
+<div class="container">
+    <h4 class="card-header info-color white-text text-center py-4">
+        <strong>Your Order Lists</strong>
+    </h4>
+    <% orders.forEach(order=>{ %>
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center badge-primary">
+            Order # <%= order._id %>
+        </li>
+    </ul>
+
+    <ul class="list-group">
+        <% order.products.forEach(product=>{ %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <%= product.product.title%>
+            <span class="badge badge-primary badge-pill"><%= product.quantity %></span>
+        </li>
+        <% }) %>
+    </ul>
+    <% }) %>
+</div>

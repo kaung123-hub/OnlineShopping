@@ -26,6 +26,37 @@ const userSchema = new Schema({
     }
 })
 
+userSchema.methods.addToCart = function (product) {
+    const cartProductIndex = this.cart.items.findIndex(cp => {
+        return cp.productId.toString() == product._id.toString();
+    }) // findIndex return first element in the object
+    let quantity = 1;
+    const updatedCartItems = [...this.cart.items];
+    if (cartProductIndex >= 0) {
+        let updatedQuantity = this.cart.items[cartProductIndex].quantity + 1;
+        updatedCartItems[cartProductIndex].quantity = updatedQuantity;
+    }
+    else {
+        updatedCartItems.push({ productId: product._id, quantity: quantity });
+    }
+    updatedCart = { items: updatedCartItems };
+    this.cart = updatedCart;
+    return this.save();
+}
+
+userSchema.methods.deleteCartItem = function (productId) {
+    const updatedCartItems = this.cart.items.filter(item => {
+        return item.productId.toString() !== productId.toString();
+    }) //filter method is to retrieve the condition items
+    this.cart.items = updatedCartItems;
+    return this.save();
+}
+
+userSchema.methods.removeCart = function () {
+    this.cart.items = [];
+    return this.save();
+}
+
 module.exports = mongoose.model('User', userSchema);
 
 // const getDb = require('../util/database').getDb;
@@ -97,8 +128,8 @@ module.exports = mongoose.model('User', userSchema);
 //         else {
 //             const productIds = this.cart.items.map(item => {
 //                 return item.productId;
-//             })
-//             return db.collection('products').find({ _id: { $in: productIds } }).toArray()
+//             }) //map is seperate a arrays to one array
+//             return db.collection('products').find({ _id: { $in: productIds } }).toArray() // in is use for the multiple data 
 //                 .then(products => {
 //                     return products.map(p => {
 //                         return {

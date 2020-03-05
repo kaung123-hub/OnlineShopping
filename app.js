@@ -29,7 +29,7 @@ const adminRoute = require('./routes/admin')
 const shopRoute = require('./routes/shop');
 
 app.use((req, res, next) => {
-    User.findById("5e5e1d7b18c83815440b90c0")
+    User.findById("5e5f5307118031519089851f")
         .then(user => {
             req.user = user;
             next();
@@ -58,7 +58,12 @@ mongoose.connect('mongodb+srv://Yabuto:Yabuto[6101997]@cluster0-t9d6d.mongodb.ne
                 if (!user) {
                     const user = new User({
                         name: 'Yabuto',
-                        email: 'Yabuto@gmail.com'
+                        email: 'Yabuto@gmail.com',
+                        cart: {
+                            items: [
+
+                            ]
+                        }
                     })
                     user.save();
                 }

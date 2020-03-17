@@ -2,10 +2,14 @@ const Product = require('../models/product');
 // const mongodb = require('mongodb');
 
 exports.getAddProduct = (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect('/login');
+    }
     res.render('admin/product-form.ejs', {
         pageTitle: 'Add Product',
         path: '/admin/add-product',
-        editing: false
+        editing: false,
+        isAuthenticated: req.session.isLoggedIn
     })
 };
 
@@ -40,7 +44,8 @@ exports.getProducts = (req, res, next) => {
             res.render('admin/products.ejs', {
                 pageTitle: 'Admin Product Lists',
                 path: '/admin/products',
-                prods: products
+                prods: products,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -57,7 +62,8 @@ exports.getEditProduct = (req, res, next) => {
                 pageTitle: 'Edit Product',
                 path: '/admin/edit-product',
                 product: product,
-                editing: editMode
+                editing: editMode,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch()
@@ -70,12 +76,12 @@ exports.postEditProduct = (req, res, next) => {
     const updatedPrice = req.body.price;
     const updatedDes = req.body.description;
     Product.findByIdAndUpdate({ _id: prodId }, {
-        title: updatedTitle,
-        image: updatedImage,
-        price: updatedPrice,
-        description: updatedDes,
-        userId: req.user._id
-    }) //first Method
+            title: updatedTitle,
+            image: updatedImage,
+            price: updatedPrice,
+            description: updatedDes,
+            userId: req.user._id
+        }) //first Method
         // Product.findById(prodId)
         //     .then(product => {
         //         product.title = updatedTitle,

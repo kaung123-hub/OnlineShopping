@@ -6,9 +6,17 @@ const bodyParser = require('body-parser');
 
 const path = require('path');
 
-const app = express();
+const csrf = require('csurf');
+
+const session = require('express-session');
+
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const expressLayout = require('express-ejs-layouts');
+
+const app = express();
+
+const csrfProtection = csrf();
 
 //import from model
 const User = require('./models/user');
@@ -24,12 +32,35 @@ app.set('view engine', 'ejs');
 
 //--import from route module--
 
+const authRoute = require('./routes/auth');
+
 const adminRoute = require('./routes/admin')
 
 const shopRoute = require('./routes/shop');
 
+const MONGODB_URI = 'mongodb+srv://Yabuto:Yabuto[6101997]@cluster0-t9d6d.mongodb.net/shop';
+const store = new MongoDBStore({
+        uri: MONGODB_URI,
+        collection: 'sessions'
+    },
+    function(error) {
+        // Should have gotten an error
+    });
+
+app.use(session({
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+}));
+
+app.use(csrfProtection);
+
 app.use((req, res, next) => {
-    User.findById("5e5f5307118031519089851f")
+    if (!req.session.user) {
+        return next();
+    }
+    User.findById(req.session.user._id)
         .then(user => {
             req.user = user;
             next();
@@ -41,33 +72,24 @@ app.use((req, res, next) => {
 
 //--use from route--
 
-app.use('/admin', adminRoute);// first method to use export route
+app.use('/admin', adminRoute); // first method to use export route
 
 // app.use('/admin', adminRoute.routes);// second method to use export route
 
 app.use('/', shopRoute);
 
+app.use(authRoute);
+
 app.use('', (req, res, next) => {
-    res.render('404', { pageTitle: 'Page Not Found!!', 'path': '' });
+    res.render('404', {
+        pageTitle: 'Page Not Found!!',
+        'path': '',
+        isAuthenticated: req.isLoggedIn
+    });
 });
 
-mongoose.connect('mongodb+srv://Yabuto:Yabuto[6101997]@cluster0-t9d6d.mongodb.net/shop', { useNewUrlParser: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
     .then(result => {
-        User.findOne()
-            .then(user => {
-                if (!user) {
-                    const user = new User({
-                        name: 'Yabuto',
-                        email: 'Yabuto@gmail.com',
-                        cart: {
-                            items: [
-
-                            ]
-                        }
-                    })
-                    user.save();
-                }
-            })
         console.log("connected DB...");
         app.listen(3000);
     })

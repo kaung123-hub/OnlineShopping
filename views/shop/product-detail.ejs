@@ -15,8 +15,7 @@
 
             <div class="col-lg-5 text-center text-md-left">
 
-                <h2
-                    class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4">
+                <h2 class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4">
                     <strong><%= product.title %></strong>
                 </h2><br><br>
 
@@ -28,8 +27,7 @@
 
                         <!-- Card header -->
                         <div class="card-header" role="tab" id="headingThree3">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx"
-                                href="#collapseThree3" aria-expanded="false" aria-controls="collapseThree3">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree3" aria-expanded="false" aria-controls="collapseThree3">
                                 <h5 class="mb-0">
                                     price
                                     <i class="fas fa-angle-down rotate-icon float-right"></i>
@@ -38,10 +36,10 @@
                         </div>
 
                         <!-- Card body -->
-                        <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3"
-                            data-parent="#accordionEx">
+                        <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3" data-parent="#accordionEx">
                             <div class="card-body">
-                                $ <%= product.price %>
+                                $
+                                <%= product.price %>
                             </div>
                         </div>
 
@@ -53,8 +51,7 @@
 
                         <!-- Card header -->
                         <div class="card-header" role="tab" id="headingFour4">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseFour4"
-                                aria-expanded="false" aria-controls="collapseFour4">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseFour4" aria-expanded="false" aria-controls="collapseFour4">
                                 <h5 class="mb-0">
                                     Description
                                     <i class="fas fa-angle-down rotate-icon float-right"></i>
@@ -63,10 +60,10 @@
                         </div>
 
                         <!-- Card body -->
-                        <div id="collapseFour4" class="collapse" role="tabpanel" aria-labelledby="headingFour4"
-                            data-parent="#accordionEx">
+                        <div id="collapseFour4" class="collapse" role="tabpanel" aria-labelledby="headingFour4" data-parent="#accordionEx">
                             <div class="card-body">
-                                $ <%= product.description %>
+                                $
+                                <%= product.description %>
                             </div>
                         </div>
 
@@ -81,10 +78,12 @@
 
                 <div class="row mt-3">
                     <div class="col-md-12 text-center text-md-left text-md-right">
-                        <form action="/cart" method="POST">
-                            <button class="btn btn-black btn-rounded btn-sm px-3">Add to Cart</button>
-                            <input type="hidden" name="prodId" value="<%= product._id %>">
-                        </form>
+                        <% if(isAuthenticated){ %>
+                            <form action="/cart" method="POST">
+                                <button class="btn btn-black btn-rounded btn-sm px-3">Add to Cart</button>
+                                <input type="hidden" name="prodId" value="<%= product._id %>">
+                            </form>
+                            <% } %>
 
                     </div>
                 </div>

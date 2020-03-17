@@ -7,7 +7,8 @@ exports.getIndex = (req, res, next) => {
             res.render('shop/index.ejs', {
                 pageTitle: 'Index',
                 path: '/',
-                prods: products
+                prods: products,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -22,7 +23,8 @@ exports.getProducts = (req, res, next) => {
             res.render('shop/product-list.ejs', {
                 pageTitle: 'All Products',
                 path: '/products',
-                prods: products
+                prods: products,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -39,7 +41,8 @@ exports.getCarts = (req, res, next) => {
             res.render('shop/cart.ejs', {
                 pageTitle: 'Your Cart',
                 path: '/cart',
-                prods: products
+                prods: products,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -74,7 +77,8 @@ exports.getProduct = (req, res, next) => {
             res.render('shop/product-detail.ejs', {
                 pageTitle: 'Product Details',
                 path: '/products',
-                product: product
+                product: product,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -90,7 +94,8 @@ exports.getOrders = (req, res, next) => {
             res.render('shop/order.ejs', {
                 pageTitle: 'Your Orders',
                 path: '/orders',
-                orders: orders
+                orders: orders,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -104,7 +109,7 @@ exports.postOrders = (req, res, next) => {
         .execPopulate()
         .then(user => {
             const products = user.cart.items.map(i => {
-                return { quantity: i.quantity, product: { ...i.productId } }
+                return { quantity: i.quantity, product: {...i.productId } }
             })
             const order = new Order({
                 products: products,

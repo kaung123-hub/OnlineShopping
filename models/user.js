@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    name: {
-        type: String,
-        Required: true
-    },
     email: {
         type: String,
-        Required: true
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
     },
     cart: {
         items: [{
@@ -26,17 +26,16 @@ const userSchema = new Schema({
     }
 })
 
-userSchema.methods.addToCart = function (product) {
+userSchema.methods.addToCart = function(product) {
     const cartProductIndex = this.cart.items.findIndex(cp => {
-        return cp.productId.toString() == product._id.toString();
-    }) // findIndex return first element in the object
+            return cp.productId.toString() == product._id.toString();
+        }) // findIndex return first element in the object
     let quantity = 1;
     const updatedCartItems = [...this.cart.items];
     if (cartProductIndex >= 0) {
         let updatedQuantity = this.cart.items[cartProductIndex].quantity + 1;
         updatedCartItems[cartProductIndex].quantity = updatedQuantity;
-    }
-    else {
+    } else {
         updatedCartItems.push({ productId: product._id, quantity: quantity });
     }
     updatedCart = { items: updatedCartItems };
@@ -44,15 +43,15 @@ userSchema.methods.addToCart = function (product) {
     return this.save();
 }
 
-userSchema.methods.deleteCartItem = function (productId) {
+userSchema.methods.deleteCartItem = function(productId) {
     const updatedCartItems = this.cart.items.filter(item => {
-        return item.productId.toString() !== productId.toString();
-    }) //filter method is to retrieve the condition items
+            return item.productId.toString() !== productId.toString();
+        }) //filter method is to retrieve the condition items
     this.cart.items = updatedCartItems;
     return this.save();
 }
 
-userSchema.methods.removeCart = function () {
+userSchema.methods.removeCart = function() {
     this.cart.items = [];
     return this.save();
 }
@@ -183,4 +182,4 @@ module.exports = mongoose.model('User', userSchema);
 
 // }
 
-// module.exports = User; 
+// module.exports = User;
